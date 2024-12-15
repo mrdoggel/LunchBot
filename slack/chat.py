@@ -3,11 +3,10 @@ from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import env
 
-def send(message, channel):
+def send(blocks, text, channel):
     client = WebClient(token=os.environ['slack_token'])
     try:
-        response = client.chat_postMessage(channel=f'#{channel}', text=message)
-        assert response["message"]["text"] == message
+        response = client.chat_postMessage(channel=f'#{channel}', text=text, blocks=blocks)
     except SlackApiError as e:
         # You will get a SlackApiError if "ok" is False
         assert e.response["ok"] is False
